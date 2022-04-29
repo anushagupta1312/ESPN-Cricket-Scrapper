@@ -12,16 +12,16 @@ const allMatchObj = require('./AllMatch')
 
 request(url, cb)
 
-function cb(error, response, html){
-    if(error){
+function cb(error, response, html) {
+    if (error) {
         console.log(error)
     }
-    else{
+    else {
         extract(html)
     }
 }
 
-function extract(html){
+function extract(html) {
     let $ = cheerio.load(html)
     let linkattr = $('a[data-hover="View All Results"]')
     let link = linkattr.attr('href')
@@ -32,10 +32,10 @@ function extract(html){
     allMatchObj.getAllMatch(fulllink)
 }
 
-function iplPath(filepath){
-    if(fs.existsSync(filepath) == false){
+function dirCreator(filepath) {
+    if (fs.existsSync(filepath) == false) {
         fs.mkdirSync(filepath)
     }
 }
 
-    
+
