@@ -16,7 +16,7 @@ function getScoreCards(link) {
     }
     function getScoreCardsHtml(html) {
         let $ = cheerio.load(html)
-        let scoreCards = $('a[data-hover="Scorecard"]')
+        let scoreCards = $('[class="ds-flex ds-mx-4 ds-pt-2 ds-pb-3 ds-space-x-4 ds-border-t ds-border-line-default-translucent"] span:nth-child(3)>a')
         for (let i = 0; i < scoreCards.length; i++) {
             let scoreCardLink = $(scoreCards[i]).attr('href')
             let fullScoreLink = `https://www.espncricinfo.com${scoreCardLink}`

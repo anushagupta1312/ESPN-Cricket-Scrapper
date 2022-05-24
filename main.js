@@ -29,11 +29,11 @@ function cb(error, response, html) {
 
 function extract(html) {
     let $ = cheerio.load(html)
-    let linkattr = $('a[data-hover="View All Results"]')
+    let linkattr = $('[class="ds-py-3 ds-px-4"] [class="ds-inline-flex ds-items-center ds-leading-none"] a')
     let link = linkattr.attr('href')
 
     let fulllink = 'https://www.espncricinfo.com' + link
-    // console.log(fulllink)
+
 
     allMatchObj.getAllMatch(fulllink)
 }

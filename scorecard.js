@@ -26,15 +26,15 @@ let date
 let result
 function extractScoreCardHtml(html) {
     let $ = cheerio.load(html)
-    let descElem = $('.header-info .description').text()
-    // console.log(descElem.text())
+    let descElem = $('[class="ds-text-tight-m ds-font-regular ds-text-ui-typo-mid"]').text()
+    // console.log(descElem)
     let descArr = descElem.split(',')
     //jab bhi split func use krna h to trim() use krna h to remove extra spaces
 
     venue = descArr[1].trim()
     date = descArr[2].trim()
 
-    result = $('.match-info.match-info-MATCH.match-info-MATCH-half-width .status-text span').text()
+    result = $('.ds-text-tight-m.ds-font-regular.ds-truncate.ds-text-typo-title').text()
     // console.log(descArr)
 
     // console.log(venue)
@@ -47,30 +47,38 @@ function extractScoreCardHtml(html) {
 
 function getTableHtml(html) {
     let $ = cheerio.load(html)
-    let tableArr = $('.card.content-block.match-scorecard-table>.Collapsible')
+    let tableArr = $('[class=" ds-mb-4"]')
 
     let tableHtml = ""
     for (let i = 0; i < tableArr.length; i++) {
+
+     
         tableHtml += $(tableArr[i]).html()
 
-        let teamName = $(tableArr[i]).find('h5').text()
+       
+        // console.log(tableArr[i])
+        let teamName = $(tableArr[i]).find('.ds-grow').text()
+     
         teamName = teamName.split('INNINGS')[0]
         let opponentIndex = (i == 0) ? 1 : 0
 
-        let opponentName = $(tableArr[opponentIndex]).find('h5').text()
+        let opponentName = $(tableArr[opponentIndex]).find('.ds-py-3').text()
         opponentName = opponentName.split('INNINGS')[0]
 
         // console.log(teamName)
-        // console.log(teamName, opponentName, venue, date, result)
+        // console.log(teamName, opponentName)
 
         let cInning = $(tableArr[i])
-        let allRows = cInning.find('.table.batsman tbody tr')
+        let allRows = cInning.find('[class="ds-w-full ds-table ds-table-xs ds-table-fixed ci-scorecard-table"] tr')
 
         for (let j = 0; j < allRows.length; j++) {
+           
             let allCols = $(allRows[j]).find('td')
-            let isWorthy = $(allCols[0]).hasClass('batsman-cell')
 
+            let isWorthy = $(allCols).length>4
+                        
             if (isWorthy) {
+                //console.log(allCols[0])
                 let playerName = $(allCols[0]).text().trim();
                 let runs = $(allCols[2]).text().trim();
                 let balls = $(allCols[3]).text().trim();
@@ -100,7 +108,7 @@ function getTableHtml(html) {
 
         }
 
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+        // console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     }
 
 
@@ -121,12 +129,14 @@ function processPlayer(
     result
 ) {
     let teamPath = path.join(__dirname, "IPL", teamName);
+    // console.log(teamPath)
     dirCreator(teamPath);
 
-    let filePath = path.join(teamPath, playerName + ".xlsx");
+    let filePath = path.join(teamPath, playerName+ ".xlsx");
 
     let content = excelReader(filePath, playerName);[]
 
+    
     let playerObj = {
         playerName,
         teamName,
