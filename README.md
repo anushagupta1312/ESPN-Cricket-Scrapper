@@ -9,7 +9,7 @@
 * Most of this data is unstructured data in an HTML format which is then converted into structured data in a spreadsheet or a database so that it can be used in various   applications.<br/>
 * With the help of request and cheerio modules in Javascript, the data of the IPL match is scrapped from the website https://www.espncricinfo.com/<br />
 * With this project the data of all the cricketers who played in the matches is saved into the excel sheets.
-* To dive into the implementation of the project hava a look at this video. 
+* To dive into the implementation of the project have a look at this video. 
 
 
 
